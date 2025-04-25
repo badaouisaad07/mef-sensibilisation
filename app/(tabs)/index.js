@@ -5,7 +5,7 @@ const App = () => {
   const buttons = [
     { 
       title: 'Présentation de la Sensibilisation (PDF)', 
-      file: 'https://drive.google.com/file/d/1w7dw8f65Gdds2j0v2JXwcWw3zNzNPnRw/view?usp=drive_link', // Replace with your actual link
+      file: 'https://mfestockage.blob.core.windows.net/media/SENSIBILISATION%20SSI_p4%202025.pptx', // Replace with your actual link
       type: 'pdf' 
     },
     { title: 'Charte de Sécurité (PDF)', file: 'https://drive.google.com/file/d/1RTvDHR9LdLtAbrPtegrnWuPeAVZvWaJZ/view?usp=drive_link' },
