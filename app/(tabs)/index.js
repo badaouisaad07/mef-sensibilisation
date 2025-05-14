@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, Image } from 'react-native';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './app/(tabs)/firebaseConfig'; // Vérifie le chemin selon ton projet
+import { useNavigation } from '@react-navigation/native';
 
 const App = () => {
+  const navigation = useNavigation();
+
+  // 🔒 Redirection si l'utilisateur n'est pas connecté
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigation.replace('Auth'); // ou 'Login' si c'est ton écran d'authentification
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
   const buttons = [
     { 
       title: 'Présentation de la Sensibilisation (PDF)', 
-      file: 'https://mfestockage.blob.core.windows.net/media/SENSIBILISATION%20SSI_p4%202025.pptx', // Replace with your actual link
+      file: 'https://mfestockage.blob.core.windows.net/media/SENSIBILISATION%20SSI_p4%202025.pptx', 
       type: 'pdf' 
     },
     { title: 'Charte de Sécurité (PDF)', file: 'https://drive.google.com/file/d/1RTvDHR9LdLtAbrPtegrnWuPeAVZvWaJZ/view?usp=drive_link' },
@@ -13,7 +29,7 @@ const App = () => {
     { title: 'Vidéos Explicatives (Vidéos)', file: 'https://drive.google.com/drive/folders/1dWHM1ZOcRfFSfvLsE8kmpIKqlqd7uK1o?usp=drive_link' },
     { title: 'Lois Marocaines (PDF)', file: 'https://docs.google.com/presentation/d/1sl204bzT7IIP4US1BfJ804lBTcsfASGv/edit?usp=drive_link&ouid=117637970889920778019&rtpof=true&sd=true' },
     { title: 'Mots Techniques (PDF)', file: 'https://example.com/mots_techniques.pdf' },
-    { title: '5 bonnes pratiques', file: 'https://drive.google.com/file/d/14iKwIIwA7CxY9ARHH-pdvFVgOL9UQrQi/view?usp=drive_link' }, // New button
+    { title: '5 bonnes pratiques', file: 'https://drive.google.com/file/d/14iKwIIwA7CxY9ARHH-pdvFVgOL9UQrQi/view?usp=drive_link' },
   ];
 
   const handlePress = async (file) => {
@@ -26,10 +42,8 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      {/* Logo at the top right corner */}
       <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
 
-      {/* Text on top of the first button */}
       <Text style={styles.headerText}>Sensibilisation MEF</Text>
 
       <View style={styles.buttonContainer}>
@@ -49,9 +63,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   buttonContainer: { flexDirection: 'column', alignItems: 'center', width: '100%' },
   button: {
-    width: '75%', // All buttons have the same width
-    height: 50,   // All buttons have the same height
-    marginVertical: 5, // Space between buttons
+    width: '75%',
+    height: 50,
+    marginVertical: 5,
     backgroundColor: '#154c79',
     justifyContent: 'center',
     alignItems: 'center',
@@ -64,15 +78,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#154c79',
-    marginBottom: 20, // Space below the header text
+    marginBottom: 20,
   },
   logo: {
-    position: 'absolute', // Position the logo absolutely
-    top: 20, // Distance from the top
-    right: 20, // Distance from the right
-    width: 240, // Adjust width as needed
-    height: 240, // Adjust height as needed
-    resizeMode: 'contain', // Ensure the logo fits within the dimensions
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 240,
+    height: 240,
+    resizeMode: 'contain',
   },
 });
 
