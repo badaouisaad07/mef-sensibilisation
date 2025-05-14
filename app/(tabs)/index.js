@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, Image } from 'react-native';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './app/(tabs)/firebaseConfig'; // Vérifie le chemin selon ton projet
+import { auth } from './firebaseConfig'; // Vérifie le chemin selon ton projet
 import { useNavigation } from '@react-navigation/native';
 
 const App = () => {
