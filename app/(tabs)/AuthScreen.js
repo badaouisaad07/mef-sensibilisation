@@ -1,39 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+// app/AuthScreen.js
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from './firebaseConfig';
 
-const AuthScreen = ({ navigation }) => {
+const AuthScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
-
-  // 🔐 Redirection si déjà connecté
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation?.replace('Home');
-      }
-    });
-    return unsubscribe;
-  }, []);
 
   const handleAuth = async () => {
     try {
       if (isRegister) {
         await createUserWithEmailAndPassword(auth, email, password);
+        Alert.alert("Compte créé avec succès", "Connectez-vous maintenant.");
+        setIsRegister(false); // Retour à mode login
       } else {
         await signInWithEmailAndPassword(auth, email, password);
+        // la redirection se fait automatiquement via _layout.js
       }
-      navigation?.replace('Home'); // ✅ sécurise avec optional chaining
     } catch (error) {
-      alert(error.message || "Erreur lors de l'authentification");
+      Alert.alert("Erreur", error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{isRegister ? 'Créer un compte' : 'Connexion'}</Text>
+      <Text style={styles.title}>
+        {isRegister ? 'Créer un compte' : 'Connexion'}
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
