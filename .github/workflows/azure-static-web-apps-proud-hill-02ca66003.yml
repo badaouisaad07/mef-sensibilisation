@@ -28,7 +28,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "."                  # Root of your app
-          output_location: ".export/web"            # Expo exports to 'dist' by default
+          output_location: "dist"            # Expo exports to 'dist' by default
           app_build_command: "npm run build" # Uses "expo export:web"
 
   close_pull_request_job:
