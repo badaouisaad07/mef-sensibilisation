@@ -1,32 +1,27 @@
 // app/_layout.js
-import { Stack } from 'expo-router';
+import { Slot, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebaseConfig';
-import AuthScreen from './AuthScreen';
-import Home from './Home';
 
 export default function Layout() {
-  const [user, setUser] = useState(null);
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+      console.log("Utilisateur connecté :", user);
+      if (user) {
+        router.replace("/Home");        // Redirige vers la page Home
+      } else {
+        router.replace("/AuthScreen");  // Redirige vers AuthScreen
+      }
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  if (loading) return null; // Optionnel : tu peux afficher un splash screen
+  if (loading) return null; // Affiche rien le temps qu’on vérifie
 
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      {user ? (
-        <Stack.Screen name="Home" component={Home} />
-      ) : (
-        <Stack.Screen name="AuthScreen" component={AuthScreen} />
-      )}
-    </Stack>
-  );
+  return <Slot />; // Charge dynamiquement la bonne page en fonction de la route
 }
