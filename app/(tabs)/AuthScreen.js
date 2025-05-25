@@ -20,7 +20,7 @@ const AuthScreen = () => {
         setIsRegister(false); // Retour à mode login
       } else {
         await signInWithEmailAndPassword(auth, email, password);
-        // la redirection se fait automatiquement via _layout.js
+       router.replace('/Home');
       }
     } catch (error) {
       Alert.alert("Erreur", error.message);
