@@ -1,26 +1,27 @@
-// app/AuthScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from './firebaseConfig';
+} from 'firebase/auth';
+import { auth } from '../../firebaseConfig'; // chemin corrigé
+import { useRouter } from 'expo-router'; // ajouté
 
 const AuthScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
+  const router = useRouter(); // nécessaire pour naviguer
 
   const handleAuth = async () => {
     try {
       if (isRegister) {
         await createUserWithEmailAndPassword(auth, email, password);
         Alert.alert("Compte créé avec succès", "Connectez-vous maintenant.");
-        setIsRegister(false); // Retour à mode login
+        setIsRegister(false);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
-       router.replace('/Home');
+        router.replace('/(tabs)/Home');// redirection vers Home
       }
     } catch (error) {
       Alert.alert("Erreur", error.message);

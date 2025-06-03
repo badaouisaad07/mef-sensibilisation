@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, Image, Alert, ScrollView } from 'react-native';
 import { signOut } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+import { auth } from '../../firebaseConfig'; // chemin corrigé
 import { useRouter } from 'expo-router';
 
 const buttons = [
@@ -28,7 +28,7 @@ export default function Home() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.replace('/'); // redirection vers login
+      router.replace('/AuthScreen'); // redirection vers l'écran de connexion
     } catch (error) {
       Alert.alert('Erreur', 'Échec de la déconnexion.');
     }
@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
+      <Image source={require('../../../assets/images/logo.png')} style={styles.logo} />
       <Text style={styles.headerText}>Sensibilisation MEF</Text>
 
       <View style={styles.buttonContainer}>
