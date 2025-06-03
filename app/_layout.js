@@ -1,8 +1,7 @@
-// app/_layout.js
 import { Slot, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+import { auth } from './(tabs)/firebaseConfig'; // Adjust path if needed
 
 export default function Layout() {
   const router = useRouter();
@@ -10,18 +9,20 @@ export default function Layout() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("Utilisateur connecté :", user);
+      console.log('Utilisateur connecté :', user);
       if (user) {
-        router.replace("/Home");        // Redirige vers la page Home
+        router.replace('/(tabs)/Home'); // Redirect to Home within tabs
       } else {
-        router.replace("/AuthScreen");  // Redirige vers AuthScreen
+        router.replace('/AuthScreen'); // Redirect to AuthScreen
       }
       setLoading(false);
     });
-    return unsubscribe;
+    return unsubscribe; // Cleanup subscription
   }, []);
 
-  if (loading) return null; // Affiche rien le temps qu’on vérifie
+  if (loading) {
+    return null; // Show nothing while checking auth state
+  }
 
-  return <Slot />; // Charge dynamiquement la bonne page en fonction de la route
+  return <Slot />; // Render the appropriate screen
 }
