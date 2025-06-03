@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, Image, Alert, ScrollView } from 'react-native';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../firebaseConfig';
+import { auth } from '../firebaseConfig';
 import { useRouter } from 'expo-router';
 
 const buttons = [
