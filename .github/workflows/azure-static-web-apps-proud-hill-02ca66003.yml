@@ -28,7 +28,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/"                  # Root of your app
-          output_location: "web-build"
+          output_location: "dist"
           app_build_command: "npm run build" # Uses "expo export:web"
 
   close_pull_request_job:
